@@ -5,71 +5,45 @@ import Slider, {
 } from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
+import Grid from "@mui/material/Grid";
 
 import type { Appstate } from "@/store";
 import { useSelector, useDispatch } from "react-redux";
 import { changeName } from "../inputSlice";
 import { useState, useEffect } from "react";
 
-function ValueLabelComponent(props: SliderValueLabelProps) {
-  const { children, value } = props;
+type InputListProps = {
+  unit: string;
+  min: number;
+  max: number;
+  defaultValue: number;
+};
 
-  return (
-    <Tooltip enterTouchDelay={0} placement="top" title={value}>
-      {children}
-    </Tooltip>
+const InputList = ({ unit, min, max, defaultValue }: InputListProps) => {
+  const [value, setValue] = useState<number | string | Array<number | string>>(
+    defaultValue
   );
-}
-
-const marks = [];
-
-const IOSSlider = styled(Slider)(({ theme }) => ({
-  color: theme.palette.mode === "dark" ? "#3880ff" : "#3880ff",
-  height: 2,
-  padding: "15px 0",
-  "& .MuiSlider-thumb": {
-    height: 28,
-    width: 28,
-    backgroundColor: "#fff",
-  },
-  "& .MuiSlider-valueLabel": {
-    fontSize: 12,
-    fontWeight: "normal",
-    top: -6,
-    backgroundColor: "unset",
-    color: theme.palette.text.primary,
-    "&:before": {
-      display: "none",
-    },
-    "& *": {
-      background: "transparent",
-      color: theme.palette.mode === "dark" ? "#fff" : "#000",
-    },
-  },
-  "& .MuiSlider-track": {
-    border: "none",
-  },
-  "& .MuiSlider-rail": {
-    opacity: 0.5,
-    backgroundColor: "#bfbfbf",
-  },
-  "& .MuiSlider-mark": {
-    backgroundColor: "#bfbfbf",
-    height: 8,
-    width: 1,
-    "&.MuiSlider-markActive": {
-      opacity: 1,
-      backgroundColor: "currentColor",
-    },
-  },
-}));
-
-const InputList = ({}) => {
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setValue(newValue);
+  };
   return (
-    <Box sx={{ width: 320 }}>
-      <Typography gutterBottom>iOS</Typography>
-      <IOSSlider aria-label="ios slider" max={2050} valueLabelDisplay="on" />
+    <Box sx={{ width: "100%" }}>
+      <Grid container spacing={3} alignItems={"center"} sx={{ width: "100%" }}>
+        <Grid item xs={3} md={2} sx={{ minWidth: "55px", px: 0 }}>
+          <Typography gutterBottom sx={{ textAlign: "right" }}>
+            {value}
+            {unit}
+          </Typography>
+        </Grid>
+        <Grid item xs={9} md={10}>
+          <Slider
+            min={min}
+            max={max}
+            defaultValue={defaultValue}
+            onChange={handleSliderChange}
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 };
@@ -78,8 +52,10 @@ export const DateField = ({}) => {
   const [date, setDate] = useState([]);
   const dispatch = useDispatch();
   return (
-    <Box>
-      <InputList />
+    <Box sx={{ width: "100%" }}>
+      <InputList unit="年" min={1501} max={3000} defaultValue={2000} />
+      <InputList unit="月" min={1} max={30} defaultValue={1} />
+      <InputList unit="日" min={1} max={100} defaultValue={1} />
     </Box>
   );
 };

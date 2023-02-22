@@ -7,6 +7,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Grid, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
 
 import { useSelector, useDispatch } from "react-redux";
 import { pushDate, popDate } from "../inputs/inputSlice";
@@ -81,7 +84,7 @@ export const CandidateQuestion = ({}) => {
   };
   return (
     <Card sx={{ maxWidth: "650px", width: "100%" }}>
-      {contents}
+      <List sx={{ p: { xs: 0 } }}>{contents}</List>
       <CardActions sx={{ p: 2 }}>{isLast()}</CardActions>
     </Card>
   );
@@ -93,13 +96,14 @@ type CandidateQuestionProps = {
 
 export const CandidateContent = ({ index }: CandidateQuestionProps) => {
   return (
-    <>
+    <li key={index.toString()}>
       <CardContent sx={{ paddingBottom: 0 }}>
         <Typography>第{index + 1}候補日</Typography>
       </CardContent>
       <CardActions sx={{ p: 2 }}>
         <DateField index={index} />
       </CardActions>
-    </>
+      <Divider variant="middle" />
+    </li>
   );
 };

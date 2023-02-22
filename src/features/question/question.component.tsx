@@ -31,6 +31,9 @@ export const NameQuestion = ({}) => {
 
 export const DateQuestion = ({}) => {
   return (
-    <Question question={"候補日を入力してください"} input={<DateField />} />
+    <Question
+      question={"候補日を入力してください"}
+      input={<DateField index={0} />}
+    />
   );
 };

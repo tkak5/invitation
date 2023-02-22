@@ -11,10 +11,11 @@ import { blue } from "@mui/material/colors";
 import type { Appstate } from "@/store";
 import { useSelector, useDispatch } from "react-redux";
 
-import { DateQuestion, NameQuestion } from "@features/question";
+import { CandidateQuestion, NameQuestion } from "@features/question";
 
 export const Invitation = ({}) => {
   const formValue = useSelector((state: Appstate) => state.input.name);
+  const dateValue = useSelector((state: Appstate) => state.input.date);
   return (
     <Box>
       <Box
@@ -40,8 +41,8 @@ export const Invitation = ({}) => {
         }}
       >
         <NameQuestion />
-        <div>chane: {formValue}</div>
-        <DateQuestion />
+        <div>name: {formValue}</div>
+        <CandidateQuestion />
       </Box>
     </Box>
   );

@@ -9,23 +9,27 @@ import Grid from "@mui/material/Grid";
 
 import type { Appstate } from "@/store";
 import { useSelector, useDispatch } from "react-redux";
-import { changeName } from "../inputSlice";
+import { changeDate } from "../inputSlice";
 import { useState, useEffect } from "react";
 
 type InputListProps = {
   unit: string;
   min: number;
   max: number;
-  defaultValue: number;
+  index: number;
 };
 
-const InputList = ({ unit, min, max, defaultValue }: InputListProps) => {
+const InputList = ({ unit, min, max, index }: InputListProps) => {
   const [value, setValue] = useState<number | string | Array<number | string>>(
-    defaultValue
+    min
   );
+  const dispatch = useDispatch();
+
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    dispatch(changeDate({ index: index, unit: unit, value: newValue }));
     setValue(newValue);
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Grid container spacing={3} alignItems={"center"} sx={{ width: "100%" }}>
@@ -39,7 +43,7 @@ const InputList = ({ unit, min, max, defaultValue }: InputListProps) => {
           <Slider
             min={min}
             max={max}
-            defaultValue={defaultValue}
+            defaultValue={min}
             onChange={handleSliderChange}
           />
         </Grid>
@@ -48,14 +52,16 @@ const InputList = ({ unit, min, max, defaultValue }: InputListProps) => {
   );
 };
 
-export const DateField = ({}) => {
-  const [date, setDate] = useState([]);
-  const dispatch = useDispatch();
+type DateFieldProps = {
+  index: number;
+};
+
+export const DateField = ({ index }: DateFieldProps) => {
   return (
     <Box sx={{ width: "100%" }}>
-      <InputList unit="年" min={1501} max={3000} defaultValue={2000} />
-      <InputList unit="月" min={1} max={30} defaultValue={1} />
-      <InputList unit="日" min={1} max={100} defaultValue={1} />
+      <InputList unit="年" min={1} max={3000} index={index} />
+      <InputList unit="月" min={1} max={30} index={index} />
+      <InputList unit="日" min={1} max={100} index={index} />
     </Box>
   );
 };
